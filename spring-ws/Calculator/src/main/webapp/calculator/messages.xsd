@@ -10,7 +10,7 @@
 	<element name="CalculateRequest"> <!-- SubscriptionRequest -->
         <complexType>
             <sequence>
-                <element name="input" type="types:CalculateInput" minOccurs="1" maxOccurs="1"/> <!-- SubscriptionUnput, met daarin user data,gekozen betaalmethode en ? -->
+                <element name="input" type="types:SubscriptionInput" minOccurs="1" maxOccurs="1"/> <!-- SubscriptionUnput, met daarin user data,gekozen betaalmethode en ? -->
             </sequence>
         </complexType>	
 	</element>
