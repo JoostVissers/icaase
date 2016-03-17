@@ -1,6 +1,8 @@
 package nl.ead.webservice.services;
 
 import java.util.List;
+
+import com.paypal.api.payments.FundingInstrument;
 import nl.ead.webservice.*;
 import nl.ead.webservice.dao.ICalculationDao;
 import nl.ead.webservice.model.Calculation;
@@ -14,6 +16,7 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 public class CalculatorEndpoint {
     private final ICalculationDao calculationDao;
     private final IMoviePrinter moviePrinter;
+    private IPaymentAPI paymentAPI;
 
     @Autowired
     public CalculatorEndpoint(IMoviePrinter moviePrinter, ICalculationDao calculationDao) {
@@ -48,38 +51,18 @@ public class CalculatorEndpoint {
 
         if(method.equals(SubscriptionMethod.PAY_PAL)){
             FundingInstruments paramList = req.getInput().getPaypalParamlist().getFundingInstruments();
+            paymentAPI = new PayPalEndpoint(paramList);
+            paymentAPI.doPayment(10.02f);
+            System.out.println("HALLO");
         }
         else if(method.equals(SubscriptionMethod.BITCOIN)){
             //FundingInstruments paramList = req.getInput().getBitcoinParamlist();
         }
 
-//        CalculateOperation op = req.getInput().getOperation();
-//        int retValue = paramList.get(0);
-//        StringBuffer calculationInput = new StringBuffer();
-//        calculationInput.append(paramList.get(0));
-//
-//        for (int i = 1; i < paramList.size(); i++) {
-//            // CalculateOperation is generated as an enum
-//            if (op.equals(CalculateOperation.ADD)) {
-//                retValue += paramList.get(i).intValue();
-//                calculationInput.append(" + " + paramList.get(i).intValue());
-//            } else if (op.equals(CalculateOperation.SUBTRACT)) {
-//                retValue -= paramList.get(i).intValue();
-//                calculationInput.append(" -" + paramList.get(i).intValue());
-//            } else if (op.equals(CalculateOperation.MULTIPLY)) {
-//                retValue *= paramList.get(i).intValue();
-//                calculationInput.append(" * " + paramList.get(i).intValue());
-//            } else if (op.equals(CalculateOperation.DIVIDE)) {
-//                retValue /= paramList.get(i).intValue();
-//                calculationInput.append(" / " + paramList.get(i).intValue());
-//            }
-//        }
+        SubscriptionResult result = new SubscriptionResult();
+        result.setMessage("YAAAY ER ZIJN GEDAAAN");
 
 
-
-        CalculateResult result = new CalculateResult();
-//        result.setMessage("Here are the results of the jury for the calculation " + calculationInput);
-//        result.setValue(retValue);
         CalculateResponse resp = new CalculateResponse();
         resp.setResult(result);
 

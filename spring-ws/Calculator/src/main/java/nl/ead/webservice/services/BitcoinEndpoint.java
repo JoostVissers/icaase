@@ -5,7 +5,7 @@ package nl.ead.webservice.services;
  */
 public class BitcoinEndpoint implements IPaymentAPI {
 
-    public boolean doPayment(){
+    public boolean doPayment(float fuckyou){
         return false;
     }
 }

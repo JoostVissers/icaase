@@ -79,4 +79,10 @@
             <enumeration value="Bitcoin"/>
         </restriction>
     </simpleType>
+
+    <complexType name="SubscriptionResult"> <!-- SubscriptionResult, met een bericht ok of niet en gekozen subscription methode? -->
+        <all>
+            <element name="message" type="string"/>
+        </all>
+    </complexType>
 </schema>

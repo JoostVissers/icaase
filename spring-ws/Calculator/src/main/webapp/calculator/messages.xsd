@@ -18,7 +18,7 @@
 	<element name="CalculateResponse"> <!-- SubscriptionResponse -->
         <complexType>
             <sequence>
-                <element name="result" type="types:CalculateResult" minOccurs="1" maxOccurs="1"/> <!-- SubscriptionResult, met een bericht ok of niet en gekozen subscription methode? -->
+                <element name="result" type="types:SubscriptionResult" minOccurs="1" maxOccurs="1"/> <!-- SubscriptionResult, met een bericht ok of niet en gekozen subscription methode? -->
             </sequence>
         </complexType>	
 	</element>
