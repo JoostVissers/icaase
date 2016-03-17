@@ -4,27 +4,27 @@
         xmlns:tns="http://www.han.nl/schemas/types"
         elementFormDefault="qualified">
 
-    <complexType name="CalculateResult">
+    <complexType name="CalculateResult"> <!-- SubscriptionResult, met een bericht ok of niet en gekozen subscription methode? -->
         <all>
             <element name="value" type="int"/>
             <element name="message" type="string"/>
         </all>
     </complexType>
 
-    <complexType name="CalculateInput">
+    <complexType name="CalculateInput"> <!-- SubscriptionInput, user data en SubscriptionMethod ? -->
         <all>
 			<element name="paramlist" type="tns:CalculateParameters" minOccurs="1" maxOccurs="1"/>
 			<element name="operation" type="tns:CalculateOperation" minOccurs="1" maxOccurs="1"/>
         </all>
     </complexType>
 
-	<complexType name="CalculateParameters">
+	<complexType name="CalculateParameters"> <!-- SubscriptionUserData, paypal account of bitcoin wallet ?  -->
 		<sequence>
 			<element name="param" type="int" minOccurs="1" maxOccurs="unbounded"/>		
 		</sequence>
 	</complexType>
 
-    <simpleType name="CalculateOperation">
+    <simpleType name="CalculateOperation"> <!-- SubscriptionMethod, PayPal en Bitcoin? -->
         <restriction base="NCName">
             <enumeration value="add"/>
             <enumeration value="subtract"/>

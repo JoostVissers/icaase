@@ -7,18 +7,18 @@
 
     <import namespace="http://www.han.nl/schemas/types" schemaLocation="types.xsd"/>
  
-	<element name="CalculateRequest">
+	<element name="CalculateRequest"> <!-- SubscriptionRequest -->
         <complexType>
             <sequence>
-                <element name="input" type="types:CalculateInput" minOccurs="1" maxOccurs="1"/>
+                <element name="input" type="types:CalculateInput" minOccurs="1" maxOccurs="1"/> <!-- SubscriptionUnput, met daarin user data,gekozen betaalmethode en ? -->
             </sequence>
         </complexType>	
 	</element>
 
-	<element name="CalculateResponse">
+	<element name="CalculateResponse"> <!-- SubscriptionResponse -->
         <complexType>
             <sequence>
-                <element name="result" type="types:CalculateResult" minOccurs="1" maxOccurs="1"/>
+                <element name="result" type="types:CalculateResult" minOccurs="1" maxOccurs="1"/> <!-- SubscriptionResult, met een bericht ok of niet en gekozen subscription methode? -->
             </sequence>
         </complexType>	
 	</element>

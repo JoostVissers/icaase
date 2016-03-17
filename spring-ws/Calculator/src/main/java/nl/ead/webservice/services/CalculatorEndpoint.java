@@ -24,6 +24,7 @@ public class CalculatorEndpoint {
     @PayloadRoot(localPart = "CalculateRequest", namespace = "http://www.han.nl/schemas/messages")
     @ResponsePayload
     public CalculateResponse calculateSumForName(@RequestPayload CalculateRequest req) {
+        // Veranderen naar pay
         // a sequence of a minimum of 1 and unbounded max is generated as a
         // List<>
         List<Integer> paramList = req.getInput().getParamlist().getParam();
@@ -48,6 +49,22 @@ public class CalculatorEndpoint {
                 calculationInput.append(" / " + paramList.get(i).intValue());
             }
         }
+
+        // Doe hier betaal dingen
+        // Haal subscription request gegevens uit het request.
+
+        // Controleer welke betaal methode gekozen is
+            // If bitcoin
+                // doe betaal dingetje voor paypal
+            // If paypal
+                // doe betaal dingetje voor paypal
+            // Als betaling geverifeerd zijn
+                // Sla payment log op in database
+                // Ecrypt betaal gegevens en sla deze op
+                // Return bericht yay succes!
+            // Return bericht whops shit is is nie goe nie.
+
+        //Anders return bericht geen geldige methode opgegeven
 
         CalculateResult result = new CalculateResult();
         result.setMessage("Here are the results of the jury for the calculation " + calculationInput);
