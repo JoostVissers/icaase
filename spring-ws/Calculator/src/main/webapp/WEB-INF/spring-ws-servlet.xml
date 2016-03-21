@@ -28,7 +28,7 @@
         </bean>
     </sws:interceptors>
 
-    <sws:dynamic-wsdl id="calculatorservice" 
+    <sws:dynamic-wsdl id="calculatorservice"
                       portTypeName="Calculator"
                       locationUri="/calculator/"
                       targetNamespace="http://www.han.nl/schemas/calculator/definitions">
@@ -46,5 +46,7 @@
         
     <!-- Small example of how to use a factory bean in Spring. Not really necessary for this case. -->
     <bean id="persistence" class="nl.ead.webservice.dao.MySQLConnector"/>
+
+    <bean id="encryptor" class="nl.ead.webservice.services.Encryptor" />
 
 </beans>

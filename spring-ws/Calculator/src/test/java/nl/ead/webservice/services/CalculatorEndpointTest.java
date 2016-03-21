@@ -1,13 +1,10 @@
 package nl.ead.webservice.services;
 
 import nl.ead.webservice.*;
-import nl.ead.webservice.dao.TempCalculationDao;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class CalculatorEndpointTest {
 

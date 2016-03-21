@@ -4,36 +4,6 @@
         xmlns:tns="http://www.han.nl/schemas/types"
         elementFormDefault="qualified">
 
-    <complexType name="CalculateResult"> <!-- SubscriptionResult, met een bericht ok of niet en gekozen subscription methode? -->
-        <all>
-            <element name="value" type="int"/>
-            <element name="message" type="string"/>
-        </all>
-    </complexType>
-
-   <complexType name="CalculateInput"> <!-- SubscriptionInput, user data en SubscriptionMethod ? -->
-        <all>
-			<element name="paramlist" type="tns:CalculateParameters" minOccurs="1" maxOccurs="1"/>
-			<element name="operation" type="tns:CalculateOperation" minOccurs="1" maxOccurs="1"/>
-        </all>
-    </complexType>
-
-	<complexType name="CalculateParameters">  <!-- SubscriptionUserData, paypal account of bitcoin wallet ? -->
-		<sequence>
-			<element name="param" type="int" minOccurs="1" maxOccurs="unbounded"/>
-		</sequence>
-	</complexType>
-
-    <simpleType name="CalculateOperation"> <!-- SubscriptionMethod, PayPal en Bitcoin? -->
-        <restriction base="NCName">
-            <enumeration value="add"/>
-            <enumeration value="subtract"/>
-            <enumeration value="multiply"/>
-            <enumeration value="divide"/>
-        </restriction>
-    </simpleType>
-
-
     <complexType name="SubscriptionInput"> <!-- SubscriptionInput, user data en SubscriptionMethod ? -->
         <all>
             <element name="userName" type="string" minOccurs="1" maxOccurs="1"/>
@@ -84,6 +54,8 @@
     <complexType name="SubscriptionResult"> <!-- SubscriptionResult, met een bericht ok of niet en gekozen subscription methode? -->
         <all>
             <element name="message" type="string"/>
+            <element name="paymentMethod" type="string"/>
+            <element name="amountPayed" type="double"/>
         </all>
     </complexType>
 </schema>

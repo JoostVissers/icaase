@@ -3,6 +3,8 @@ package nl.ead.webservice.dao;
 import nl.ead.webservice.model.PaymentLog;
 import nl.ead.webservice.model.User;
 
+import nl.ead.webservice.model.UserBitcoinInfo;
+import nl.ead.webservice.model.UserPayPalInfo;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,20 +25,28 @@ public class MySQLConnector implements IPersistenceConnector {
 
     @Transactional
     @Override
-    public void saveUserPaymentInfo(User user) {
+    public void saveUserBitcoinInfo(UserBitcoinInfo info) {
 
     }
 
     @Transactional
     @Override
-    public void savePaymentLog(String userName, String logDetails) {
-        createNewUsers();
+    public void saveUserPaypalInfo(UserPayPalInfo info) {
+        em.persist(info);
+    }
 
-        PaymentLog pl = new PaymentLog(getUserIDByName(userName), logDetails);
+    @Transactional
+    @Override
+    public void savePaymentLog(Long userID, String logDetails) {
+
+        PaymentLog pl = new PaymentLog(userID, logDetails);
         em.persist(pl);
     }
 
-    private Long getUserIDByName(String username){
+    @Transactional
+    @Override
+    public Long getUserIDByName(String username){
+        createNewUsers();
         String hql = "FROM User WHERE username = '"+ username +"'";
         Query query = em.createQuery(hql);
 
@@ -46,12 +56,14 @@ public class MySQLConnector implements IPersistenceConnector {
         for(Object us : results){
             uid = ((User)us).getId();
         }
-
+        System.out.println("==============================---------------------------------------------++++++++++++++++++++++++++++");
+        System.out.println(uid);
         return uid;
     }
 
+    @Transactional
     private void createNewUsers() {
-        User u1 = new User("Joost");
+        User u1 = new User("Frits");
         User u2 = new User("Martijn");
         em.persist(u1);
         em.persist(u2);

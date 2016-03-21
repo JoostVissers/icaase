@@ -75,6 +75,7 @@ public class PayPalEndpoint implements IPaymentAPI {
             payer.setFundingInstruments(fundingInstrumentList);
             payer.setPaymentMethod(paymentMethod);
 
+            System.out.println(subscriptionCost);
             Amount amount = new Amount();
             amount.setCurrency(currency);
             amount.setTotal(Double.toString(subscriptionCost));                 //              amount.setTotal("12.02");
@@ -101,6 +102,7 @@ public class PayPalEndpoint implements IPaymentAPI {
             }
         }
         catch (Exception e) {
+            System.out.println(e.getMessage());
             return false;
         }
     }

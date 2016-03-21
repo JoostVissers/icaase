@@ -1,19 +1,20 @@
 package nl.ead.webservice.services;
 
+import nl.ead.webservice.model.UserPayPalInfo;
+
 /**
  * Created by Joost on 14/03/2016.
  */
 public class Encryptor {
 
-    public void encryptUserInfo(){
+    public String encrypt(String string){
         //http://www.jasypt.org/ voor encryptie maybe?
-        // return encrypted shit
+        System.out.println("IK BEN GEENCRYPT HOOR");
+        return string;
     }
 
-    public void decryptUserInfo(){
+    public String decrypt(String string){
         //http://www.jasypt.org/ voor encryptie maybe?
-        // return decrypted shit
+        return string;
     }
-
-
 }
