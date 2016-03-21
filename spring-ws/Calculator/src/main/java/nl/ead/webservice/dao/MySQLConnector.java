@@ -30,14 +30,14 @@ public class MySQLConnector implements IPersistenceConnector {
     @Transactional
     @Override
     public void savePaymentLog(String userName, String logDetails) {
+        createNewUsers();
 
+        PaymentLog pl = new PaymentLog(getUserIDByName(userName), logDetails);
+        em.persist(pl);
+    }
 
-        User u1 = new User("Joost");
-        User u2 = new User("Martijn");
-        em.persist(u1);
-        em.persist(u2);
-
-        String hql = "FROM User WHERE username = '"+ userName +"'";
+    private Long getUserIDByName(String username){
+        String hql = "FROM User WHERE username = '"+ username +"'";
         Query query = em.createQuery(hql);
 
         List results = query.getResultList();
@@ -47,9 +47,14 @@ public class MySQLConnector implements IPersistenceConnector {
             uid = ((User)us).getId();
         }
 
-        PaymentLog pl = new PaymentLog(uid, logDetails);
-        em.persist(pl);
+        return uid;
+    }
 
+    private void createNewUsers() {
+        User u1 = new User("Joost");
+        User u2 = new User("Martijn");
+        em.persist(u1);
+        em.persist(u2);
     }
 }
 

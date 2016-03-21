@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.swing.text.StringContent;
 import java.io.Serializable;
 
 /**
@@ -21,6 +20,8 @@ public class User implements Serializable {
     public User(String userName) {
         this.userName = userName;
     }
+
+    public  User(){};
 
     public String getUserName() {
         return userName;
