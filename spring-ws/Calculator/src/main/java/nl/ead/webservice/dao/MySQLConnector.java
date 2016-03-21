@@ -1,20 +1,23 @@
 package nl.ead.webservice.dao;
 
-import nl.ead.webservice.model.Calculation;
 import nl.ead.webservice.model.PaymentLog;
 import nl.ead.webservice.model.User;
+
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+import java.util.List;
 
 /**
  * Created by Joost on 21/03/2016.
  */
 
 @Repository
-public class MySQLConnector implements  IPersistenceConnector{
+public class MySQLConnector implements IPersistenceConnector {
     @PersistenceContext
     private EntityManager em;
 
@@ -26,11 +29,27 @@ public class MySQLConnector implements  IPersistenceConnector{
 
     @Transactional
     @Override
-    public void savePaymentLog(User user, String logDetails) {
+    public void savePaymentLog(String userName, String logDetails) {
 
-        System.out.println("HOOOOOOOOOOOOOOOOOOOOOI:" + em.find(User.class,user).getId().toString());
-        PaymentLog pl = new PaymentLog(em.find(User.class,user).getId(),logDetails);
+
+        User u1 = new User("Joost");
+        User u2 = new User("Martijn");
+        em.persist(u1);
+        em.persist(u2);
+
+        String hql = "FROM User WHERE username = '"+ userName +"'";
+        Query query = em.createQuery(hql);
+
+        List results = query.getResultList();
+        Long uid = Long.parseLong("0");
+
+        for(Object us : results){
+            uid = ((User)us).getId();
+        }
+
+        PaymentLog pl = new PaymentLog(uid, logDetails);
         em.persist(pl);
+
     }
 }
 

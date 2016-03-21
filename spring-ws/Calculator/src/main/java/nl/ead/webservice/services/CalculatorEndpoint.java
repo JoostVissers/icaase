@@ -56,11 +56,7 @@ public class CalculatorEndpoint {
             FundingInstruments paramList = req.getInput().getPaypalParamlist().getFundingInstruments();
             paymentAPI = new PayPalEndpoint(paramList);
             if(paymentAPI.doPayment(12.02)){
-                //sla shit op
-                System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP");
-                System.out.println(persistence.toString());
-                System.out.println(req.getInput().getUserName());
-                persistence.savePaymentLog(new User(req.getInput().getUserName()),"gedaan nu enzo");
+                persistence.savePaymentLog(req.getInput().getUserName(),"gedaan nu enzo");
                 result.setMessage("Paypal");
             }
             else{

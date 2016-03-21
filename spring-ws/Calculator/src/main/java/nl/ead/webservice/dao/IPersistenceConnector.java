@@ -7,5 +7,5 @@ import nl.ead.webservice.model.User;
  */
 public interface IPersistenceConnector {
     void saveUserPaymentInfo(User user);
-    void savePaymentLog(User user,String logDetails);
+    void savePaymentLog(String user,String logDetails);
 }
