@@ -6,9 +6,9 @@ import org.jmock.Mockery;
 import org.junit.Before;
 import org.junit.Test;
 
-public class CalculatorEndpointTest {
+public class SubscriptionEndpointTest {
 
-    private CalculatorEndpoint calculatorEndpoint;
+    private SubscriptionEndpoint subscriptionEndpoint;
     private Mockery context = new Mockery();
 
     @Before
@@ -16,7 +16,7 @@ public class CalculatorEndpointTest {
         final IMoviePrinter moviePrinter = context.mock(IMoviePrinter.class);
 
         // moviePrinter is a mock, tempCalculationDao is a stub
-        calculatorEndpoint = new CalculatorEndpoint(moviePrinter, new TempCalculationDao());
+        subscriptionEndpoint = new SubscriptionEndpoint(moviePrinter, new TempCalculationDao());
 
         // expectations
         context.checking(new Expectations() {{
@@ -37,7 +37,7 @@ public class CalculatorEndpointTest {
             }
         });
 
-        assertEquals(3, calculatorEndpoint.calculateSumForName(calculateRequest).getResult().getValue());
+        assertEquals(3, subscriptionEndpoint.calculateSumForName(calculateRequest).getResult().getValue());
 
         context.assertIsSatisfied();
 
