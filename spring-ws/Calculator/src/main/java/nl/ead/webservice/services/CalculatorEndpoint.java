@@ -5,7 +5,9 @@ import java.util.List;
 import com.paypal.api.payments.FundingInstrument;
 import nl.ead.webservice.*;
 import nl.ead.webservice.dao.ICalculationDao;
+import nl.ead.webservice.dao.IPersistenceConnector;
 import nl.ead.webservice.model.Calculation;
+import nl.ead.webservice.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -15,13 +17,14 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 @Endpoint
 public class CalculatorEndpoint {
     private final ICalculationDao calculationDao;
-    private final IMoviePrinter moviePrinter;
+    private final IPersistenceConnector persistence;
     private IPaymentAPI paymentAPI;
 
     @Autowired
-    public CalculatorEndpoint(IMoviePrinter moviePrinter, ICalculationDao calculationDao) {
-        this.moviePrinter = moviePrinter;
+    public CalculatorEndpoint(ICalculationDao calculationDao,IPersistenceConnector persistence) {
         this.calculationDao = calculationDao;
+        this.persistence = persistence;
+
     }
 
     @PayloadRoot(localPart = "CalculateRequest", namespace = "http://www.han.nl/schemas/messages")
@@ -32,7 +35,7 @@ public class CalculatorEndpoint {
         // List<>
 
         SubscriptionMethod method = req.getInput().getSubscriptionMethod();
-
+        SubscriptionResult result = new SubscriptionResult();
         // Doe hier betaal dingen
         // Haal subscription request gegevens uit het request.
 
@@ -52,25 +55,25 @@ public class CalculatorEndpoint {
         if(method.equals(SubscriptionMethod.PAY_PAL)){
             FundingInstruments paramList = req.getInput().getPaypalParamlist().getFundingInstruments();
             paymentAPI = new PayPalEndpoint(paramList);
-            paymentAPI.doPayment(10.02f);
-            System.out.println("HALLO");
+            if(paymentAPI.doPayment(12.02)){
+                //sla shit op
+                System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP");
+                System.out.println(persistence.toString());
+                System.out.println(req.getInput().getUserName());
+                persistence.savePaymentLog(new User(req.getInput().getUserName()),"gedaan nu enzo");
+                result.setMessage("Paypal");
+            }
+            else{
+                result.setMessage("Paypal FAIL");
+            }
         }
         else if(method.equals(SubscriptionMethod.BITCOIN)){
             //FundingInstruments paramList = req.getInput().getBitcoinParamlist();
+            result.setMessage("Bitcoin FAIL");
         }
-
-        SubscriptionResult result = new SubscriptionResult();
-        result.setMessage("YAAAY ER ZIJN GEDAAAN");
-
 
         CalculateResponse resp = new CalculateResponse();
         resp.setResult(result);
-
-        // OK, I know this isn't the best example of an external service for a calculator....
-        //moviePrinter.printMovieDetails("Bond");
-
-//         Calculation calculation = new Calculation(calculationInput.toString(),retValue+"");
-//        calculationDao.save(calculation);
 
         return resp;
     }

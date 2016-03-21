@@ -36,6 +36,7 @@
 
     <complexType name="SubscriptionInput"> <!-- SubscriptionInput, user data en SubscriptionMethod ? -->
         <all>
+            <element name="userName" type="string" minOccurs="1" maxOccurs="1"/>
             <element name="subscriptionMethod" type="tns:SubscriptionMethod" minOccurs="1" maxOccurs="1"/>
             <element name="paypalParamlist" type="tns:SubscriptionUserDataPaypal" minOccurs="0" maxOccurs="1"/>
             <element name="bitcoinParamlist" type="tns:SubscriptionUserDataBitcoin" minOccurs="0" maxOccurs="1"/>

@@ -5,5 +5,5 @@ package nl.ead.webservice.services;
  */
 public interface IPaymentAPI {
 
-    public boolean doPayment(float paymentAmount);
+    public boolean doPayment(double subscriptionCost);
 }

@@ -20,88 +20,88 @@ import java.util.concurrent.ExecutionException;
 /**
  * Created by Joost on 14/03/2016.
  */
-public class PayPalEndpoint implements IPaymentAPI{
+public class PayPalEndpoint implements IPaymentAPI {
 
     private FundingInstruments data;
-    private String payPalHttpsURL;
+
+    private String client;
+    private String secret;
+    private String intent;
+    private String currency;
+    private String paymentMethod;
 
     public PayPalEndpoint(FundingInstruments data) {
         this.data = data;
-        payPalHttpsURL = "https://api.sandbox.paypal.com/v1/payments/payment";
+
+        client = "ATpVSEOocz9uTKEYPc0_EWnDZ40KteME2AL-hn8q1lSyDIjvC602CeUUqsyBO6lfExIjCxmozbNB4lVx";
+        secret = "EORO0WsW3hM_ikaMqZ823cHjXKpgJr4hfp_IBPEh27-TjEreppLCt8NDShqEyxtUMvvQvFrxRiwup0Vw";
+        intent = "sale";
+        currency = "USD";
+        paymentMethod = "credit_card";
     }
 
-    public boolean doPayment(float paymentAmount){
-
-        try{
-            createPayPalPayment();
-        }
-        catch (Exception e){
-
-        }
-
-        return false;
+    public boolean doPayment(double subscriptionCost) {
+        return createPayPalPayment(subscriptionCost);
     }
 
-    void createPayPalPayment(){
-
-
+    boolean createPayPalPayment(double subscriptionCost) {
         Map<String, String> sdkConfig = new HashMap<String, String>();
         sdkConfig.put("mode", "sandbox");
         String accessToken = null;
 
-        try{
-            accessToken = new OAuthTokenCredential("ATpVSEOocz9uTKEYPc0_EWnDZ40KteME2AL-hn8q1lSyDIjvC602CeUUqsyBO6lfExIjCxmozbNB4lVx", "EORO0WsW3hM_ikaMqZ823cHjXKpgJr4hfp_IBPEh27-TjEreppLCt8NDShqEyxtUMvvQvFrxRiwup0Vw", sdkConfig).getAccessToken();
-        }
-        catch (Exception e){
+        try {
+            accessToken = new OAuthTokenCredential(client, secret, sdkConfig).getAccessToken();
 
-        }
+            System.out.println(accessToken.toString());
 
-        APIContext apiContext = new APIContext(accessToken);
-        apiContext.setConfigurationMap(sdkConfig);
+            APIContext apiContext = new APIContext(accessToken);
+            apiContext.setConfigurationMap(sdkConfig);
 
-        CreditCard creditCard = new CreditCard();
-        creditCard.setType("visa");
-        creditCard.setNumber("4417119669820331");
-        creditCard.setExpireMonth("11");
-        creditCard.setExpireYear("2018");
-        creditCard.setFirstName("loL");
-        creditCard.setLastName("dERP");
+            CreditCard creditCard = new CreditCard();
+            creditCard.setType(data.getCreditcardType().get(0));                //            creditCard.setType("visa");
+            creditCard.setNumber(data.getCreditcardNumber().get(0));            //            creditCard.setNumber("4446283280247004");
+            creditCard.setExpireMonth(data.getExpireMonth().get(0).toString()); //            creditCard.setExpireMonth("11");
+            creditCard.setExpireYear(data.getExpireYear().get(0).toString());   //            creditCard.setExpireYear("2018");
+            creditCard.setFirstName(data.getFirstName().get(0));                //            creditCard.setFirstName("Joe");
+            creditCard.setLastName(data.getLastName().get(0));                  //            creditCard.setLastName("Test");
 
-        FundingInstrument fundingInstrument = new FundingInstrument();
-        fundingInstrument.setCreditCard(creditCard);
+            FundingInstrument fundingInstrument = new FundingInstrument();
+            fundingInstrument.setCreditCard(creditCard);
 
-        List<FundingInstrument> fundingInstrumentList = new ArrayList<FundingInstrument>();
-        fundingInstrumentList.add(fundingInstrument);
+            List<FundingInstrument> fundingInstrumentList = new ArrayList<FundingInstrument>();
+            fundingInstrumentList.add(fundingInstrument);
 
-        Payer payer = new Payer();
-        payer.setFundingInstruments(fundingInstrumentList);
-        payer.setPaymentMethod("credit_card");
+            Payer payer = new Payer();
+            payer.setFundingInstruments(fundingInstrumentList);
+            payer.setPaymentMethod(paymentMethod);
 
-        Amount amount = new Amount();
-        amount.setCurrency("USD");
-        amount.setTotal("10.02");
+            Amount amount = new Amount();
+            amount.setCurrency(currency);
+            amount.setTotal(Double.toString(subscriptionCost));                 //              amount.setTotal("12.02");
 
-        Transaction transaction = new Transaction();
-        transaction.setDescription("creating a direct payment with credit card");
-        transaction.setAmount(amount);
+            Transaction transaction = new Transaction();
+            transaction.setDescription("creating a direct payment with credit card");
+            transaction.setAmount(amount);
 
-        List<Transaction> transactions = new ArrayList<Transaction>();
-        transactions.add(transaction);
+            List<Transaction> transactions = new ArrayList<Transaction>();
+            transactions.add(transaction);
 
-        Payment payment = new Payment();
-        payment.setIntent("sale");
-        payment.setPayer(payer);
-        payment.setTransactions(transactions);
+            Payment payment = new Payment();
+            payment.setIntent(intent);
+            payment.setPayer(payer);
+            payment.setTransactions(transactions);
 
-        try{
             Payment createdPayment = payment.create(apiContext);
 
-            System.out.println(createdPayment.getState());
+            if (createdPayment.getState().equals("approved")) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
-        catch (Exception e){
-
+        catch (Exception e) {
+            return false;
         }
     }
-
-
 }
