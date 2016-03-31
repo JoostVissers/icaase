@@ -54,4 +54,19 @@
         <property name="consumerKey" value="YOUR_CONSUMERKEY_HERE"></property>
         <property name="consumerSecret" value="YOUR_CONSUMERSECRET_HERE"></property>
     </bean>
+
+    <!--&lt;!&ndash;This bean gets used to create EntityManagers which can be used for Repositories/DAOs&ndash;&gt;-->
+    <!--<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">-->
+        <!--<property name="persistenceUnitName" value="calculator"/>-->
+    <!--</bean>-->
+    <!--&lt;!&ndash;This bean gets used to manage the transactions inside the EntityManagers, without it data would not get saved as transactions are never flushed&ndash;&gt;-->
+    <!--<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">-->
+        <!--<property name="entityManagerFactory" ref="entityManagerFactory" />-->
+    <!--</bean>-->
+
+    <!--&lt;!&ndash; Small example of how to use a factory bean in Spring. Not really necessary for this case. &ndash;&gt;-->
+    <!--<bean id="persistence" class="nl.ead.webservice.dao.MySQLConnector"/>-->
+
+    <!--<bean id="encryptor" class="nl.ead.webservice.services.Encryptor" />-->
+
 </beans>

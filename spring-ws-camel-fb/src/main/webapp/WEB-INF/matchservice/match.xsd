@@ -17,18 +17,68 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:element name="MatchRequest">
+    <xs:simpleType name="SubscriptionMethod"> <!-- SubscriptionMethod, PayPal en Bitcoin? -->
+        <xs:restriction base="xs:NCName">
+            <xs:enumeration value="PayPal"/>
+            <xs:enumeration value="Bitcoin"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="SubscriptionUserDataPaypal"> <!-- SubscriptionUserData, paypal account of bitcoin wallet ?  -->
+        <xs:all>
+            <xs:element name="funding_instruments" type="han:funding_instruments" minOccurs="1" maxOccurs="1"/>
+        </xs:all>
+    </xs:complexType>
+
+    <xs:complexType name="funding_instruments"> <!-- SubscriptionUserData, paypal account of bitcoin wallet ?  -->
+        <xs:sequence>
+            <xs:element name="creditcardNumber" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+            <xs:element name="creditcardType" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+            <xs:element name="expire_month" type="xs:int" minOccurs="1" maxOccurs="unbounded"/>
+            <xs:element name="expire_year" type="xs:int" minOccurs="1" maxOccurs="unbounded"/>
+            <xs:element name="cvv2" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+            <xs:element name="first_name" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+            <xs:element name="last_name" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+            <xs:sequence>
+                <xs:element name="line1" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+                <xs:element name="city" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+                <xs:element name="state" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="postal_code" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+                <xs:element name="country_code" type="xs:string" minOccurs="1" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="SubscriptionUserDataBitcoin"> <!-- SubscriptionUserData, paypal account of bitcoin wallet ?  -->
+        <xs:sequence>
+            <!--<element name="param" type="int" minOccurs="1" maxOccurs="unbounded"/> -->
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="CalculateRequest"> <!-- SubscriptionRequest -->
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="user" type="han:User" minOccurs="2" maxOccurs="2"/>
+                <xs:element name="userName" type="xs:string" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="subscriptionMethod" type="han:SubscriptionMethod" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="paypalParamlist" type="han:SubscriptionUserDataPaypal" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="bitcoinParamlist" type="han:SubscriptionUserDataBitcoin" minOccurs="0" maxOccurs="1"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="MatchResponse">
+
+    <xs:complexType name="SubscriptionResult"> <!-- SubscriptionResult, met een bericht ok of niet en gekozen subscription methode? -->
+        <xs:all>
+            <xs:element name="message" type="xs:string"/>
+            <xs:element name="paymentMethod" type="xs:string"/>
+            <xs:element name="amountPayed" type="xs:double"/>
+        </xs:all>
+    </xs:complexType>
+
+    <xs:element name="CalculateResponse"> <!-- SubscriptionResponse -->
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="matchResult" type="han:MatchResult" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="result" type="han:SubscriptionResult" minOccurs="1" maxOccurs="1"/> <!-- SubscriptionResult, met een bericht ok of niet en gekozen subscription methode? -->
             </xs:sequence>
         </xs:complexType>
     </xs:element>
