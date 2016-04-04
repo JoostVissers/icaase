@@ -21,9 +21,8 @@ public class MySQLConnector implements IPersistenceConnector {
     @PersistenceContext
     private EntityManager em;
 
-    public MySQLConnector(){
+    public MySQLConnector() {
         this.em = Persistence.createEntityManagerFactory("UsingHibernate").createEntityManager();
-        System.out.println("nieuwe connector");
     }
 
     @Transactional
@@ -33,28 +32,42 @@ public class MySQLConnector implements IPersistenceConnector {
 
     @Transactional
     public void saveUserPaypalInfo(UserPayPalInfo info) {
-        em.persist(info);
+        // begin transaction
+        em.getTransaction().begin();
+        if (!em.contains(info)) {
+            em.persist(info);
+            em.flush();
+        }
+        // commit transaction at all
+        em.getTransaction().commit();
     }
 
     @Transactional
     public void savePaymentLog(Long userID, String logDetails) {
-
         PaymentLog pl = new PaymentLog(userID, logDetails);
-        em.persist(pl);
+
+        // begin transaction
+        em.getTransaction().begin();
+        if (!em.contains(pl)) {
+            em.persist(pl);
+            em.flush();
+        }
+        // commit transaction at all
+        em.getTransaction().commit();
+
     }
 
     @Transactional
-    public Long getUserIDByName(String username){
-        System.out.println("Get by Name");
+    public Long getUserIDByName(String username) {
         //createNewUsers();
-        String hql = "FROM User WHERE username = '"+ username +"'";
+        String hql = "FROM User WHERE username = '" + username + "'";
         Query query = em.createQuery(hql);
 
         List results = query.getResultList();
         Long uid = Long.parseLong("0");
 
-        for(Object us : results){
-            uid = ((User)us).getId();
+        for (Object us : results) {
+            uid = ((User) us).getId();
         }
         System.out.println("==============================---------------------------------------------++++++++++++++++++++++++++++");
         System.out.println(uid);
