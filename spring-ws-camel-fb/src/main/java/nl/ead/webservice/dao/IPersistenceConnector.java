@@ -12,4 +12,5 @@ public interface IPersistenceConnector {
     void saveUserPaypalInfo(UserPayPalInfo info);
     void savePaymentLog(Long userID,String logDetails);
     Long getUserIDByName(String username);
+    void createNewUsers();
 }

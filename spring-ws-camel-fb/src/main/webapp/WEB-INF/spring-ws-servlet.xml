@@ -11,7 +11,7 @@
         <camel:routeBuilder ref="matchRoute"/>
     </camel:camelContext>
 
-    <bean id="matchRoute" class="nl.han.dare2date.matchservice.SocialMediaMatchRoute"/>
+    <bean id="matchRoute" class="nl.ead.webservice.services.SubscriptionEndpoint"/>
 
     <!-- === Endpoint mapping(s) ==== -->
     <bean id="matchEndpointMapping" class="org.apache.camel.component.spring.ws.bean.CamelEndpointMapping">
@@ -42,17 +42,6 @@
         </property>
         <property name="portTypeName" value="match"/>
         <property name="locationUri" value="http://localhost:8080/match"/>
-    </bean>
-    <bean class="org.apache.camel.component.facebook.config.FacebookConfiguration">
-        <property name="OAuthAccessToken" value="YOUR_OAUTH_ACCESSTOKEN_HERE"></property>
-        <property name="OAuthAppId" value="YOUR_OAUTH_APPID_HERE"></property>
-        <property name="OAuthAppSecret" value="YOUR_OAUTH_APPSECRET_HERE"></property>
-    </bean>
-    <bean id="twitter" class="org.apache.camel.component.twitter.TwitterComponent">
-        <property name="accessToken" value="YOUR_ACCESSTOKEN_HERE"></property>
-        <property name="accessTokenSecret" value="YOUR_ACCESSTOKEN_SECRET_HERE"></property>
-        <property name="consumerKey" value="YOUR_CONSUMERKEY_HERE"></property>
-        <property name="consumerSecret" value="YOUR_CONSUMERSECRET_HERE"></property>
     </bean>
 
     <!--&lt;!&ndash;This bean gets used to create EntityManagers which can be used for Repositories/DAOs&ndash;&gt;-->

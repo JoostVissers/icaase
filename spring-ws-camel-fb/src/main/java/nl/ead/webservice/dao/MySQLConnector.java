@@ -8,9 +8,7 @@ import nl.ead.webservice.model.UserPayPalInfo;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.*;
 
 import java.util.List;
 
@@ -22,6 +20,11 @@ import java.util.List;
 public class MySQLConnector implements IPersistenceConnector {
     @PersistenceContext
     private EntityManager em;
+
+    public MySQLConnector(){
+        this.em = Persistence.createEntityManagerFactory("UsingHibernate").createEntityManager();
+        System.out.println("nieuwe connector");
+    }
 
     @Transactional
     public void saveUserBitcoinInfo(UserBitcoinInfo info) {
@@ -42,7 +45,8 @@ public class MySQLConnector implements IPersistenceConnector {
 
     @Transactional
     public Long getUserIDByName(String username){
-        createNewUsers();
+        System.out.println("Get by Name");
+        //createNewUsers();
         String hql = "FROM User WHERE username = '"+ username +"'";
         Query query = em.createQuery(hql);
 
@@ -58,7 +62,7 @@ public class MySQLConnector implements IPersistenceConnector {
     }
 
     @Transactional
-    private void createNewUsers() {
+    public void createNewUsers() {
         User u1 = new User("Frits");
         User u2 = new User("Martijn");
         em.persist(u1);

@@ -58,6 +58,10 @@ public class PayPalEndpoint implements IPaymentAPI {
             APIContext apiContext = new APIContext(accessToken);
             apiContext.setConfigurationMap(sdkConfig);
 
+            System.out.println("Beforte Data");
+            System.out.println(data.toString());
+            System.out.println("after Data");
+
             CreditCard creditCard = new CreditCard();
             creditCard.setType(data.getCreditcardType().get(0));                //            creditCard.setType("visa");
             creditCard.setNumber(data.getCreditcardNumber().get(0));            //            creditCard.setNumber("4446283280247004");
@@ -102,7 +106,8 @@ public class PayPalEndpoint implements IPaymentAPI {
                 return false;
             }
         } catch (Exception e) {
-            System.out.printf("IN EXEPTION");
+            System.out.println("IN EXEPTION");
+            System.out.println("HIER");
             System.out.println(e.getMessage());
 
             return false;
